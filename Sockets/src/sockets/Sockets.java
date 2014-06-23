@@ -16,5 +16,6 @@ public class Sockets {
     public static void main(String[] args) {
         // TODO code application logic here
         //how are u doing
+        //thos ol
     }
 }
