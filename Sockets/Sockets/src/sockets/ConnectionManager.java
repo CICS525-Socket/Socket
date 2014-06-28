@@ -28,7 +28,6 @@ public class ConnectionManager implements Runnable{
         outStream = socket.getOutputStream();
     }
 
-    @Override
     public void run() {
        System.out.println("run method running.");
     }
