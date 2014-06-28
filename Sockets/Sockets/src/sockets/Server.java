@@ -33,7 +33,8 @@ public class Server {
                 System.out.println("Contacting process port number: "
                         + socket.getPort() + "\n");
                 //ConnectionManager class is in charge of receiving the requests and handling them
-                new ConnectionManager(socket);
+                Thread t = new Thread(new ConnectionManager(socket));
+                t.start();
             }
         } catch (IOException e) {
             System.out.println("IO Exception :" + e.getMessage());

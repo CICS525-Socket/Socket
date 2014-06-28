@@ -11,5 +11,7 @@ package sockets;
  * @author Ali
  */
 public class Stock {
-    
+    String tickerName;
+    float price;
+    int numberAvailable;
 }

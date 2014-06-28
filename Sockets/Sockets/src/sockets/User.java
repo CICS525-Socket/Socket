@@ -11,5 +11,7 @@ package sockets;
  * @author Ali
  */
 public class User {
+    String userName;
+    float cashBalance;
     
 }
