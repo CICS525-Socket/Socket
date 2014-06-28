@@ -24,6 +24,10 @@ public class Stock {
 		this.no = no;
 	}
 	
+	public Stock() {
+		
+	}
+	
 	/**
 	 * @return the price
 	 */

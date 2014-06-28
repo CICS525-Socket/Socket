@@ -28,21 +28,12 @@ public class Writer {
 		// end of sampling
 
 		File f = new File("stocks.txt");
-		// FileReader fr = new FileReader(f);
 		FileWriter fr = null;
 		try {
 			fr = new FileWriter(f);
-
 			BufferedWriter br = new BufferedWriter(fr);
-			// BufferedReader br = new BufferedReader(fr);
-
 			String s = "";
 
-			/*
-			 * while ((br.readLine())!=null) { // Do whatever u want to do with
-			 * the content of the file,eg print it on console using SysOut...etc
-			 * }
-			 */
 			for (Stock e : stocks) {
 				s += e.getTickername() + " " + e.getNo() + " " + e.getPrice();
 				s += "\n";
@@ -50,7 +41,6 @@ public class Writer {
 			br.write(s);
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -83,6 +73,42 @@ public class Writer {
 			}
 		}
 		return false;
+	}
+
+	/*
+	 * add a user to the list of users. It first checks if the user exists
+	 * before adding. Returns null if no user was added
+	 */
+	public User addUser(String username, ArrayList<User> users) {
+
+		// check if the user exists
+		for (User u : users) {
+			if (u.getUsername().equalsIgnoreCase(username)) {
+				System.out.println("User already exists");
+				return null;
+			}
+		}
+
+		// write to the users file
+		File f = new File("users.txt");
+		FileWriter fr = null;
+		try {
+			fr = new FileWriter(f);
+			BufferedWriter br = new BufferedWriter(fr);
+			String s = "";
+
+			for (User e : users) {
+				s += e.getUsername() + " " + e.getBalance();
+				s += "\n";
+			}
+			br.write(s);
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
+		return null;
 	}
 
 	/**
