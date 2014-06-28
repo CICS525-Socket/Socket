@@ -6,10 +6,24 @@
 
 package sockets;
 
+import java.net.Socket;
+
 /**
  *
  * @author Ali
  */
-public class ConnectionManager {
+public class ConnectionManager implements Runnable{
+    
+    private Socket socket;
+    
+    public ConnectionManager(Socket socket){
+        this.socket = socket;
+    }
+
+    @Override
+    public void run() {
+       
+    }
+    
     
 }

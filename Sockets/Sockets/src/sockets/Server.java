@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package sockets;
+
+import java.io.IOException;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 /**
  *
@@ -16,10 +19,25 @@ public class Server {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
-        //asdfsdalfkj
-    	
-    	//how are you doing
+        final int port = 8003;
+        try {
+            //Starting the server
+            ServerSocket server = new ServerSocket(port);
+            System.out.println("Server Started");
+            while (true) {
+                System.out.println("Waiting for a client");
+                //creating one socket for each client
+                Socket socket = server.accept();
+                System.out.println("Contacting end-system ip address: "
+                        + socket.getInetAddress().toString());
+                System.out.println("Contacting process port number: "
+                        + socket.getPort() + "\n");
+                //ConnectionManager class is in charge of receiving the requests and handling them
+                new ConnectionManager(socket);
+            }
+        } catch (IOException e) {
+            System.out.println("IO Exception :" + e.getMessage());
+        }
     }
-    
+
 }
