@@ -93,7 +93,7 @@ public class PriceUpdater implements Runnable {
 	public static void main(String[] args) {
 		String symbol = "aapl";
 		// String html = readHTML(symbol);
-		System.out.println(price(symbol));
+		System.out.println(name(symbol) + " " + price(symbol));
 	}
 
 	public void run() {
