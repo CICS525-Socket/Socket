@@ -44,8 +44,7 @@ public class DataReader {
 	 * called userstocks.txt
 	 */
 	public static ArrayList<UserStocks> getUserStocks() {
-		ArrayList<UserStocks> usersStocks = new ArrayList<UserStocks>();
-		UserStocks u = new UserStocks();
+		ArrayList<UserStocks> usersStocks = new ArrayList<UserStocks>();		
 		File f = new File("userstocks.txt");
 		try {
 			FileReader fr = new FileReader(f);
@@ -54,6 +53,7 @@ public class DataReader {
 			String s = "";
 			while ((s = br.readLine()) != null) {
 				String[] comp = splitLine(s, 3);
+				UserStocks u = new UserStocks();
 				u.setUsername(comp[0]);
 				u.setTickername(comp[1]);
 				u.setNo(Integer.valueOf(comp[2]));
@@ -84,8 +84,7 @@ public class DataReader {
 	 * stock
 	 */
 	public static ArrayList<Stock> getStocks() {
-		ArrayList<Stock> stocks = new ArrayList<Stock>();
-		Stock stock = new Stock();
+		ArrayList<Stock> stocks = new ArrayList<Stock>();		
 		File f = new File("stocks.txt");
 		try {
 			FileReader fr = new FileReader(f);
@@ -94,6 +93,7 @@ public class DataReader {
 			String s = "";
 			while ((s = br.readLine()) != null) {
 				String[] comp = splitLine(s, 3);
+				Stock stock = new Stock();
 				stock.setNo(Integer.valueOf(comp[1]));
 				stock.setPrice(Double.valueOf(comp[2]));
 				stock.setTickername(comp[0]);

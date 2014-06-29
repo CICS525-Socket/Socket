@@ -24,10 +24,12 @@ public class ConnectionManager implements Runnable {
 	private PrintWriter out;
 
 	// changed here //
-	ArrayList<Stock> stocks; // all the stocks
-	ArrayList<User> users; // all the users
-	ArrayList<UserStocks> userStocks; // all the users stocks
-	User user; // user using this client
+	private ArrayList<Stock> stocks; // all the stocks
+	private ArrayList<User> users; // all the users
+	private ArrayList<UserStocks> userStocks; // all the users stocks
+	private String currentCommand = "";
+	private User user; // user using this client
+
 	// changed ended here
 
 	public ConnectionManager(Socket socket) throws IOException {
@@ -60,7 +62,6 @@ public class ConnectionManager implements Runnable {
 		System.out.println("user command: " + userCommand);
 		String[] command = commandParser(userCommand.toLowerCase().trim());
 		this.sendToUser(command[0]);
-
 		while (!command[0].equals("close")) {
 			userCommand = this.readInputStream();
 			System.out.println("user command: " + userCommand);
@@ -80,9 +81,11 @@ public class ConnectionManager implements Runnable {
 				this.buy();
 				break;
 			case "sell":
+				currentCommand = "sell";
 				this.sell();
 				break;
-			case "followstock":
+			case "follow":
+				currentCommand = "follow";
 				this.follow();
 				break;
 			default:
@@ -125,11 +128,21 @@ public class ConnectionManager implements Runnable {
 	private void query() {
 
 	}
-	
+
 	private void follow() {
-		//System.out.println();
+		currentCommand = "follow";
+		this.sendToUser("Calling the follow function");
 		String tickername = readInputStream();
-		Writer.addStock(tickername, stocks);
+		System.out.println("The tickername is " + tickername);
+		this.stocks = Writer.addStock(tickername, stocks);
+		Stock rStock = DataReader.getStockByTickername(tickername, stocks);
+		if (rStock != null) {
+			this.sendToUser("Stockname: " + rStock.getTickername()
+					+ ". Price: " + rStock.getPrice() + ". Remaining: "
+					+ rStock.getNo());
+		} else {
+			this.sendToUser("Tickername is invalid");
+		}
 	}
 
 	private void checkportfolio() {
@@ -159,6 +172,10 @@ public class ConnectionManager implements Runnable {
 	}
 
 	private void unknowCommand() {
+		System.out.println("Current command is " + currentCommand);
+		if (currentCommand.equalsIgnoreCase("follow")) {
+			this.follow();
+		}
 
 	}
 

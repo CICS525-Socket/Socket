@@ -20,10 +20,10 @@ public class Writer {
 	public synchronized static void writeStockValues(ArrayList<Stock> stocks) {
 
 		// sampling purposes. remove later
-		stocks = new ArrayList<Stock>();
+	/*	stocks = new ArrayList<Stock>();
 		stocks.add(new Stock("goog", 1000, PriceUpdater.price("goog")));
 		stocks.add(new Stock("yhoo", 1000, PriceUpdater.price("yhoo")));
-		stocks.add(new Stock("msft", 1000, PriceUpdater.price("msft")));
+		stocks.add(new Stock("msft", 1000, PriceUpdater.price("msft"))); */
 		// end of sampling
 
 		File f = new File("stocks.txt");

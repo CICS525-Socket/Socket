@@ -97,25 +97,30 @@ public class PriceUpdater implements Runnable {
 	}
 
 	public void run() {
-		// get the prices every 2 minutes and update them
-			
-		while(true) {
-		int counter = 0;
-		for(Stock e:myStocks) {
-			e.setPrice(price(e.getTickername()));
-			myStocks.set(counter++, e);
-		}
-		
-		//write the values to the file	
-		Writer.writeStockValues(myStocks);
-		
-		//let the updater sleep for 2 minutes
-		try {
-			Thread.sleep(120000);
-		} catch (InterruptedException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		System.out.println("Getting to the run command");
+		while (true) {
+			// get the prices every 2 minutes and update them
+			myStocks = DataReader.getStocks();
+			System.out.println("My stocks size is " + myStocks.size());
+			if (myStocks != null) {				
+				for (Stock e : myStocks) {
+					int index = myStocks.indexOf(e);
+					e.setPrice(price(e.getTickername()));
+					myStocks.set(index, e);
+				}
+
+				// write the values to the file
+				Writer.writeStockValues(myStocks);
+
+				// let the updater sleep for 2 minutes
+				try {
+					Thread.sleep(120000);
+					//Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
 		}
 	}
 }
