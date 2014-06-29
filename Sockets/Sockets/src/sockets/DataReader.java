@@ -11,7 +11,7 @@ public class DataReader {
 	/* gets all the registered users */
 	public static ArrayList<User> getUsers() {
 		ArrayList<User> users = new ArrayList<User>();
-		User u = new User();
+		
 		File f = new File("users.txt");
 		try {
 			FileReader fr = new FileReader(f);
@@ -19,11 +19,15 @@ public class DataReader {
 
 			String s = "";
 			while ((s = br.readLine()) != null) {
-				String[] comp = splitLine(s);
-				u.setUsername(comp[0]);
-				u.setBalance(Double.valueOf(comp[1]));
-				u.setUserStock(getUserStocks(u.getUsername()));
-				users.add(u);
+			//	if (s.trim().length() > 5) {
+					User u = new User();
+					String[] comp = splitLine(s, 2);
+					u.setUsername(comp[0]);
+					System.out.println(comp[0]);
+					u.setBalance(Double.valueOf(comp[1]));
+					u.setUserStock(getUserStocks());
+					users.add(u);
+			//	}
 			}
 
 			br.close();
@@ -39,7 +43,7 @@ public class DataReader {
 	 * performs the function of the checkPortfolio It reads the data from a file
 	 * called userstocks.txt
 	 */
-	public static ArrayList<UserStocks> getUserStocks(String username) {
+	public static ArrayList<UserStocks> getUserStocks() {
 		ArrayList<UserStocks> usersStocks = new ArrayList<UserStocks>();
 		UserStocks u = new UserStocks();
 		File f = new File("userstocks.txt");
@@ -49,15 +53,12 @@ public class DataReader {
 
 			String s = "";
 			while ((s = br.readLine()) != null) {
-				String[] comp = splitLine(s);
-				if (comp[0].equalsIgnoreCase(username)) {
-					u.setUsername(comp[0]);
-					u.setTickername(comp[1]);
-					u.setNo(Integer.valueOf(comp[2]));
-					usersStocks.add(u);
-				}
+				String[] comp = splitLine(s, 3);
+				u.setUsername(comp[0]);
+				u.setTickername(comp[1]);
+				u.setNo(Integer.valueOf(comp[2]));
+				usersStocks.add(u);
 			}
-
 			br.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -82,7 +83,7 @@ public class DataReader {
 	 * this gets the stocks values from the file and populates the arraylist of
 	 * stock
 	 */
-	public ArrayList<Stock> getStocks() {
+	public static ArrayList<Stock> getStocks() {
 		ArrayList<Stock> stocks = new ArrayList<Stock>();
 		Stock stock = new Stock();
 		File f = new File("stocks.txt");
@@ -92,9 +93,9 @@ public class DataReader {
 
 			String s = "";
 			while ((s = br.readLine()) != null) {
-				String[] comp = splitLine(s);
-				stock.setNo(Integer.valueOf(comp[2]));
-				stock.setPrice(Double.valueOf(comp[1]));
+				String[] comp = splitLine(s, 3);
+				stock.setNo(Integer.valueOf(comp[1]));
+				stock.setPrice(Double.valueOf(comp[2]));
 				stock.setTickername(comp[0]);
 				stocks.add(stock);
 			}
@@ -107,14 +108,37 @@ public class DataReader {
 		return stocks;
 	}
 
-	private static String[] splitLine(String line) {
+	/* get user by username from users arraylist. Returns null if not found */
+	public static User getUserByUsername(String username, ArrayList<User> users) {
+		// search for user from array of users
+		for (User u : users) {
+			if (u.getUsername().equalsIgnoreCase(username)) {
+				return u;
+			}
+		}
+		return null;
+	}
+
+	/* get the stock object using the tickername */
+	public static Stock getStockByTickername(String tickername,
+			ArrayList<Stock> stocks) {
+		for (Stock s : stocks) {
+			if (s.getTickername().equalsIgnoreCase(tickername)) {
+				return s;
+			}
+		}
+		return null;
+	}
+
+	private static String[] splitLine(String line, int length) {
 		String[] comp = line.split(" ");
-		if (comp.length == 3) {
+		if (comp.length == length) {
 			return comp;
 		} else {
 			return new String[3];
 		}
 	}
+	
 
 	/**
 	 * @param args
