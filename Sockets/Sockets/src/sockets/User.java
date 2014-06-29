@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class User {
 	private String username;
 	private double balance;
-	private ArrayList<Stock> userStock;
+	private ArrayList<UserStocks> userStock;
 	/**
 	 * @return the username
 	 */
@@ -43,13 +43,13 @@ public class User {
 	/**
 	 * @return the userStock
 	 */
-	public ArrayList<Stock> getUserStock() {
+	public ArrayList<UserStocks> getUserStock() {
 		return userStock;
 	}
 	/**
 	 * @param userStock the userStock to set
 	 */
-	public void setUserStock(ArrayList<Stock> userStock) {
+	public void setUserStock(ArrayList<UserStocks> userStock) {
 		this.userStock = userStock;
 	} 
 }
