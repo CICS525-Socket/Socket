@@ -1,1 +1,3 @@
 Ali AAPL 1
+Jasmine AAPL 0
+Jasmine KO 12

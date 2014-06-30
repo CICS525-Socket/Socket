@@ -306,9 +306,9 @@ public class Writer {
 		username.setUserStock(userStocks);
 		users.set(userIndex, username);
 
-		results.add(users); // index 3 is the updated list of all the users
+		results.add(users); // index 2 is the updated list of all the users
 		writeAllUsers(users); // write all the users to file
-		results.add(username); // index 4 is the updated value of the user
+		results.add(username); // index 3 is the updated value of the user
 		// return the collection that was just purchased
 		return results;
 	}

@@ -1,2 +1,3 @@
 yanki3 1000.0
 Ali 908.02
+Jasmine 493.49

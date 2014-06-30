@@ -143,9 +143,10 @@ public class ConnectionManager implements Runnable {
 		this.stocks = Writer.addStock(tickername, stocks);
 		Stock rStock = DataReader.getStockByTickername(tickername, stocks);
 		if (rStock != null) {
-			this.sendToUser("Stockname: " + rStock.getTickername()
-					+ ". Price: " + rStock.getPrice() + ". Remaining: "
-					+ rStock.getNo());
+			this.sendToUser("Stockname: "
+					+ PriceUpdater.name(rStock.getTickername())
+					+ " \t Tickername: " + rStock.getTickername() + "\t Price: "
+					+ rStock.getPrice() + "\t Remaining: " + rStock.getNo());
 		} else {
 			this.sendToUser("Tickername is invalid");
 		}
@@ -159,17 +160,17 @@ public class ConnectionManager implements Runnable {
 		if (portfolio != null) {
 			System.out.println("Your portfolio is as follows :");
 			System.out
-					.println("TickerName \t Full Name \t Current Price \t Quantity");
+					.println("TickerName \t\t\t Full Name \t\t\t Current Price \t\t\t Quantity");
 			response += "\nYour portfolio is as follows :"
-					+ "\nTickerName \t Full Name \t Current Price \t Quantity";
+					+ "\nTickerName \t\t\t Full Name \t\t\t Current Price \t\t\t Quantity";
 			for (UserStocks e : portfolio) {
-				System.out.println(e.getTickername() + " \t "
-						+ PriceUpdater.name(e.getTickername()) + " \t "
-						+ PriceUpdater.price(e.getTickername()) + " \t "
+				System.out.println(e.getTickername() + " \t\t\t "
+						+ PriceUpdater.name(e.getTickername()) + " \t\t\t "
+						+ PriceUpdater.price(e.getTickername()) + " \t\t\t "
 						+ e.getNo());
-				response += "\n" + e.getTickername() + " \t "
-						+ PriceUpdater.name(e.getTickername()) + " \t "
-						+ PriceUpdater.price(e.getTickername()) + " \t "
+				response += "\n" + e.getTickername() + " \t\t\t "
+						+ PriceUpdater.name(e.getTickername()) + " \t\t\t "
+						+ PriceUpdater.price(e.getTickername()) + " \t\t\t "
 						+ e.getNo();
 			}
 		} else {
@@ -186,7 +187,7 @@ public class ConnectionManager implements Runnable {
 			sendToUser("Invalid command");
 			return;
 		}
-		if (commandComps[0].equals("buy") && commandComps[1].startsWith("<")
+		if (commandComps[0].equals("BUY") && commandComps[1].startsWith("<")
 				&& commandComps[1].endsWith(">")
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {
@@ -204,12 +205,12 @@ public class ConnectionManager implements Runnable {
 			Collection results = Writer.purchaseStock(tickername, user, no,
 					users, stocks);
 			if (results != null) {
-				List list = new ArrayList(results);
-				userStocks = (ArrayList<UserStocks>) list.get(0);
-				stocks = (ArrayList<Stock>) list.get(1);
-				users = (ArrayList<User>) list.get(2);
-				user = (User) list.get(3);
-				System.out.println(user.getBalance());
+				//List list = new ArrayList(results);
+				userStocks = DataReader.getUserStocks();
+				stocks = DataReader.getStocks();
+				users = DataReader.getUsers(); //(ArrayList<User>) list.get(2);
+				user = DataReader.getUserByUsername(user.getUsername(), users);
+				//System.out.println(user.getBalance());
 				// checkportfolio();
 				this.sendToUser("Purchase successful.");
 			} else {
@@ -246,12 +247,12 @@ public class ConnectionManager implements Runnable {
 			Collection results = Writer.sellStock(tickername, user, no, users,
 					stocks);
 			if (results != null) {
-				List list = new ArrayList(results);
-				userStocks = (ArrayList<UserStocks>) list.get(0);
-				stocks = (ArrayList<Stock>) list.get(1);
-				users = (ArrayList<User>) list.get(2);
-				user = (User) list.get(3);
-				System.out.println(user.getBalance());
+				//List list = new ArrayList(results);
+				userStocks = DataReader.getUserStocks();
+				stocks = DataReader.getStocks();
+				users = DataReader.getUsers(); //(ArrayList<User>) list.get(2);
+				user = DataReader.getUserByUsername(user.getUsername(), users);
+				//System.out.println(user.getBalance());
 				// checkportfolio();
 				this.sendToUser("Sale successful.");
 			} else {

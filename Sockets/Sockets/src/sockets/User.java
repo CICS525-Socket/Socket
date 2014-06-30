@@ -62,13 +62,10 @@ public class User {
 		thisUserStock = new ArrayList<UserStocks>();
 		if(userStock != null) {
 		for (UserStocks us : userStock) {
-			if (us.getUsername().equalsIgnoreCase(this.username)) {
+			if (us.getUsername().equalsIgnoreCase(this.username) && us.getNo() > 0) {
 				thisUserStock.add(us);
 			}
-		} }
-		else {
-			this.thisUserStock = null;
-		}
+		} }		
 	}
 	
 	public int getNoOfStocksByUserAndTickerName(String username, String tickername) {
