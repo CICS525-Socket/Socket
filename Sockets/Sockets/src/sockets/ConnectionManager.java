@@ -65,10 +65,7 @@ public class ConnectionManager implements Runnable {
 				switch (userCommand) {
 				case "close":
 					this.closeConnection();
-					break;
-				case "query":
-					this.query();
-					break;
+					break;				
 				case "checkportfolio":
 					currentCommand = "checkportfolio";
 					this.checkportfolio();
@@ -123,11 +120,7 @@ public class ConnectionManager implements Runnable {
 
 	private static String[] commandParser(String command) {
 		return command.split("\\s+");
-	}
-
-	private void query() {
-
-	}
+	}	
 
 	private void follow(String ticker) {
 		currentCommand = "follow";
