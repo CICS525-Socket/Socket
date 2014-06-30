@@ -57,51 +57,62 @@ public class ConnectionManager implements Runnable {
 	}
 
 	public void run() {
+
 		System.out.println("run method running.");
-		String userCommand = this.readInputStream();
-		System.out.println("user command: " + userCommand);
-		String[] command = commandParser(userCommand.toLowerCase().trim());
-		this.sendToUser(command[0]);
-		while (!command[0].equals("close")) {
-			userCommand = this.readInputStream();
+		while (true) {
+			String userCommand = this.readInputStream();
 			System.out.println("user command: " + userCommand);
-			command = commandParser(userCommand.toLowerCase().trim());
-			this.sendToUser(command[0]);
-			switch (command[0]) {
-			case "close":
+			String[] command = commandParser(userCommand.toLowerCase().trim());
+			// this.sendToUser(command[0]);
+			if (!command[0].equals("close")) {
+				switch (command[0]) {
+				case "close":
+					this.closeConnection();
+					break;
+				case "query":
+					this.query();
+					break;
+				case "checkportfolio":
+					currentCommand = "checkportfolio";
+					this.checkportfolio();
+					break;
+				case "buy":
+					this.buy();
+					break;
+				case "sell":
+					currentCommand = "sell";
+					// this.sell();
+					break;
+				case "follow":
+					currentCommand = "follow";
+				//	this.sendToUser("Calling the follow function");
+					// this.follow();
+					break;
+				default:
+					this.unknowCommand(command[0]);
+					break;
+				}
+				// userCommand = this.readInputStream();
+				// System.out.println("user command: " + userCommand);
+				// command = commandParser(userCommand.toLowerCase().trim());
+				// this.sendToUser(command[0]);
+			} else {
 				this.closeConnection();
-				break;
-			case "query":
-				this.query();
-				break;
-			case "checkportfolio":
-				this.checkportfolio();
-				break;
-			case "buy":
-				this.buy();
-				break;
-			case "sell":
-				currentCommand = "sell";
-				this.sell();
-				break;
-			case "follow":
-				currentCommand = "follow";
-				this.follow();
-				break;
-			default:
-				this.unknowCommand();
 				break;
 			}
 		}
-		this.closeConnection();
 	}
 
 	private String readInputStream() {
-		if (inStream.hasNextLine()) {
-			String line = inStream.nextLine();
-			return line;
+		while (true) {
+			if (inStream.hasNext()) {
+				String line = inStream.nextLine();
+				return line;
+			} else {
+				continue;
+			}
 		}
-		return null;
+		// return null;
 	}
 
 	private void sendToUser(String userCommand) {
@@ -129,10 +140,10 @@ public class ConnectionManager implements Runnable {
 
 	}
 
-	private void follow() {
+	private void follow(String ticker) {
 		currentCommand = "follow";
-		this.sendToUser("Calling the follow function");
-		String tickername = readInputStream();
+	//	this.sendToUser("Calling the follow function");
+		String tickername = ticker;
 		System.out.println("The tickername is " + tickername);
 		this.stocks = Writer.addStock(tickername, stocks);
 		Stock rStock = DataReader.getStockByTickername(tickername, stocks);
@@ -146,21 +157,31 @@ public class ConnectionManager implements Runnable {
 	}
 
 	private void checkportfolio() {
+		String response = "Your current balance is $" + user.getBalance();
 		System.out.println("Your current balance is $" + user.getBalance());
 		ArrayList<UserStocks> portfolio = user.getUserStock();
+
 		if (portfolio != null) {
 			System.out.println("Your portfolio is as follows :");
 			System.out
 					.println("TickerName \t Full Name \t Current Price \t Quantity");
+			response += "\nYour portfolio is as follows :"
+					+ "TickerName \t Full Name \t Current Price \t Quantity";
 			for (UserStocks e : portfolio) {
 				System.out.println(e.getTickername() + " \t "
 						+ PriceUpdater.name(e.getTickername()) + " \t "
 						+ PriceUpdater.price(e.getTickername()) + " \t "
 						+ e.getNo());
+				response += "\n" + e.getTickername() + " \t "
+						+ PriceUpdater.name(e.getTickername()) + " \t "
+						+ PriceUpdater.price(e.getTickername()) + " \t "
+						+ e.getNo();
 			}
 		} else {
 			System.out.println("You do not have any stocks yet");
+			response += "\nYou do not have any stocks yet";
 		}
+		sendToUser(response);
 	}
 
 	private void buy() {
@@ -171,10 +192,19 @@ public class ConnectionManager implements Runnable {
 
 	}
 
-	private void unknowCommand() {
+	private void unknowCommand(String command) {
+		
+		if(command.equals("reset")) {
+			currentCommand = "";
+			return;
+		}
 		System.out.println("Current command is " + currentCommand);
 		if (currentCommand.equalsIgnoreCase("follow")) {
-			this.follow();
+			this.follow(command);
+		} else if (currentCommand.equalsIgnoreCase("checkportfolio")) {
+			this.checkportfolio();
+		} else {
+			sendToUser("Invalid command");
 		}
 
 	}
