@@ -132,7 +132,9 @@ public class ConnectionManager implements Runnable {
 	private void follow(String ticker) {
 		currentCommand = "follow";
 		// this.sendToUser("Calling the follow function");
-		String tickername = ticker;
+		String[] comps = ticker.split(" ");
+		String tickername = comps[1].substring(1,comps[1].length()-1);
+		
 		System.out.println("The tickername is " + tickername);
 		this.stocks = Writer.addStock(tickername, stocks);
 		Stock rStock = DataReader.getStockByTickername(tickername, stocks);
@@ -143,7 +145,7 @@ public class ConnectionManager implements Runnable {
 					+ "\t Price: " + rStock.getPrice() + "\t Remaining: "
 					+ rStock.getNo());
 		} else {
-			this.sendToUser("Tickername is invalid");
+			this.sendToUser("Tickername is invalid or query invalid");
 		}
 	}
 

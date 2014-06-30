@@ -5,6 +5,8 @@
  */
 package sockets;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -21,6 +23,17 @@ public class Server {
 	 */
 	public static void main(String[] args) {
 		final int port = 8003;
+		
+		//create the storage files if they do not exist		
+		File userstocks = new File("userstocks.txt");
+		if(!userstocks.exists()) {
+		    try {
+				userstocks.createNewFile();
+			//	FileOutputStream oFile = new FileOutputStream(userstocks, false); 
+			} catch (IOException e) {
+				System.out.println("Could not create userstocks storage file");
+			}
+		} 		
 
 		// start the price updater
 		Thread t2 = new Thread(new PriceUpdater());

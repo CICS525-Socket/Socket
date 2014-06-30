@@ -19,7 +19,7 @@ public class DataReader {
 
 			String s = "";
 			while ((s = br.readLine()) != null) {
-			//	if (s.trim().length() > 5) {
+				if (s.trim().length() > 5) {
 					User u = new User();
 					String[] comp = splitLine(s, 2);
 					u.setUsername(comp[0]);
@@ -27,9 +27,8 @@ public class DataReader {
 					u.setBalance(Double.valueOf(comp[1]));
 					u.setUserStock(getUserStocks());
 					users.add(u);
-			//	}
+				}
 			}
-
 			br.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
