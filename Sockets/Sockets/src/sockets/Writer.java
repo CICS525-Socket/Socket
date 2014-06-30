@@ -20,10 +20,12 @@ public class Writer {
 	public synchronized static void writeStockValues(ArrayList<Stock> stocks) {
 
 		// sampling purposes. remove later
-	/*	stocks = new ArrayList<Stock>();
-		stocks.add(new Stock("goog", 1000, PriceUpdater.price("goog")));
-		stocks.add(new Stock("yhoo", 1000, PriceUpdater.price("yhoo")));
-		stocks.add(new Stock("msft", 1000, PriceUpdater.price("msft"))); */
+		/*
+		 * stocks = new ArrayList<Stock>(); stocks.add(new Stock("goog", 1000,
+		 * PriceUpdater.price("goog"))); stocks.add(new Stock("yhoo", 1000,
+		 * PriceUpdater.price("yhoo"))); stocks.add(new Stock("msft", 1000,
+		 * PriceUpdater.price("msft")));
+		 */
 		// end of sampling
 
 		File f = new File("stocks.txt");
@@ -196,6 +198,7 @@ public class Writer {
 		// add the stock to the userStocks arraylist and write the values
 		ArrayList<UserStocks> userStocks = DataReader.getUserStocks();
 		int index = 0;
+		boolean flag = false;
 		// check to see if the user already has some of that stock
 		for (UserStocks us : userStocks) {
 			if (us.getTickername().equalsIgnoreCase(tickername)
@@ -204,18 +207,21 @@ public class Writer {
 				// user already has some of those stocks
 				us.setNo(us.getNo() + no);
 				userStocks.set(index, us);
+				flag = true;
 				break;
 			}
 			index++;
 		}
 		// user does not have any of those stocks
-		UserStocks newUs = new UserStocks();
-		newUs.setNo(no);
-		newUs.setTickername(tickername);
-		newUs.setUsername(username.getUsername());
-		userStocks.add(newUs);
-		results.add(userStocks); // add the user stocks to the collection. index
-									// 0
+		if (!flag) {
+			UserStocks newUs = new UserStocks();
+			newUs.setNo(no);
+			newUs.setTickername(tickername);
+			newUs.setUsername(username.getUsername());
+			userStocks.add(newUs);
+			results.add(userStocks); // add the user stocks to the collection.
+										// index 0
+		}
 		// write updated userstocks values to file
 		writeAllUserStocks(userStocks); // write the stock values to the file
 
@@ -232,9 +238,9 @@ public class Writer {
 		username.setUserStock(userStocks);
 		users.set(userIndex, username);
 
-		results.add(users); // index 3 is the updated list of all the users
+		results.add(users); // index 2 is the updated list of all the users
 		writeAllUsers(users); // write all the users to file
-		results.add(username); // index 4 is the updated value of the user
+		results.add(username); // index 3 is the updated value of the user
 		// return the collection that was just purchased
 		return results;
 	}

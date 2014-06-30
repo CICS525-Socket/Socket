@@ -59,6 +59,7 @@ public class User {
 	 *            the userStock to set
 	 */
 	public void setUserStock(ArrayList<UserStocks> userStock) {
+		thisUserStock = new ArrayList<UserStocks>();
 		if(userStock != null) {
 		for (UserStocks us : userStock) {
 			if (us.getUsername().equalsIgnoreCase(this.username)) {

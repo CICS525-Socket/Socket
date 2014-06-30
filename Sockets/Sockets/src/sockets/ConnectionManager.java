@@ -10,6 +10,8 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -65,7 +67,7 @@ public class ConnectionManager implements Runnable {
 			String[] command = commandParser(userCommand.toLowerCase().trim());
 			// this.sendToUser(command[0]);
 			if (!command[0].equals("close")) {
-				switch (command[0]) {
+				switch (userCommand) {
 				case "close":
 					this.closeConnection();
 					break;
@@ -77,7 +79,8 @@ public class ConnectionManager implements Runnable {
 					this.checkportfolio();
 					break;
 				case "buy":
-					this.buy();
+					currentCommand = "buy";
+					// this.buy();
 					break;
 				case "sell":
 					currentCommand = "sell";
@@ -89,7 +92,7 @@ public class ConnectionManager implements Runnable {
 					// this.follow();
 					break;
 				default:
-					this.unknowCommand(command[0]);
+					this.unknowCommand(userCommand);
 					break;
 				}
 				// userCommand = this.readInputStream();
@@ -166,7 +169,7 @@ public class ConnectionManager implements Runnable {
 			System.out
 					.println("TickerName \t Full Name \t Current Price \t Quantity");
 			response += "\nYour portfolio is as follows :"
-					+ "TickerName \t Full Name \t Current Price \t Quantity";
+					+ "\nTickerName \t Full Name \t Current Price \t Quantity";
 			for (UserStocks e : portfolio) {
 				System.out.println(e.getTickername() + " \t "
 						+ PriceUpdater.name(e.getTickername()) + " \t "
@@ -184,7 +187,41 @@ public class ConnectionManager implements Runnable {
 		sendToUser(response);
 	}
 
-	private void buy() {
+	private void buy(String command) {
+		currentCommand = "buy";
+		System.out.println("Getting to the buy command");
+		// this.sendToUser("Calling the follow function");
+		String[] commandComps = command.split(" ");
+		if(commandComps.length != 3) {
+			sendToUser("Invalid command");
+			return;
+		}
+		if (commandComps[0].equals("buy") && commandComps[1].startsWith("<")
+				&& commandComps[1].endsWith(">")
+				&& commandComps[2].startsWith("<")
+				&& commandComps[2].endsWith(">")) {
+			String tickername = commandComps[1].substring(1,
+					commandComps[1].length() - 1);
+			int no = Integer.parseInt(commandComps[2].substring(1,
+					commandComps[2].length() - 1));
+
+			Collection results = Writer.purchaseStock(tickername, user, no,
+					users, stocks);
+			if (results != null) {
+				List list = new ArrayList(results);
+				userStocks = (ArrayList<UserStocks>) list.get(0);
+				stocks = (ArrayList<Stock>) list.get(1);
+				users = (ArrayList<User>) list.get(2);
+				user = (User) list.get(3);
+				System.out.println(user.getBalance());
+				//checkportfolio();
+				this.sendToUser("Purchase successful.");
+			} else {
+				this.sendToUser("Purchase unsuccessful.");
+			}
+		} else {
+			this.sendToUser("Invalid command");
+		}
 
 	}
 
@@ -204,10 +241,16 @@ public class ConnectionManager implements Runnable {
 			}
 		} else if (currentCommand.equalsIgnoreCase("checkportfolio")) {
 			this.checkportfolio();
+		} else if (currentCommand.equalsIgnoreCase("buy")) {
+			if (command.equals("reset")) {
+				currentCommand = "";
+				sendToUser("Server Working ... ");
+			} else {
+				this.buy(command);
+			}
 		} else {
 			sendToUser("Invalid command");
 		}
 
 	}
-
 }
