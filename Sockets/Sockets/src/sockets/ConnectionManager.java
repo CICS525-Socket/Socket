@@ -85,7 +85,7 @@ public class ConnectionManager implements Runnable {
 					break;
 				case "follow":
 					currentCommand = "follow";
-				//	this.sendToUser("Calling the follow function");
+					// this.sendToUser("Calling the follow function");
 					// this.follow();
 					break;
 				default:
@@ -142,7 +142,7 @@ public class ConnectionManager implements Runnable {
 
 	private void follow(String ticker) {
 		currentCommand = "follow";
-	//	this.sendToUser("Calling the follow function");
+		// this.sendToUser("Calling the follow function");
 		String tickername = ticker;
 		System.out.println("The tickername is " + tickername);
 		this.stocks = Writer.addStock(tickername, stocks);
@@ -193,14 +193,15 @@ public class ConnectionManager implements Runnable {
 	}
 
 	private void unknowCommand(String command) {
-		
-		if(command.equals("reset")) {
-			currentCommand = "";
-			return;
-		}
+
 		System.out.println("Current command is " + currentCommand);
 		if (currentCommand.equalsIgnoreCase("follow")) {
-			this.follow(command);
+			if (command.equals("reset")) {
+				currentCommand = "";
+				sendToUser("Server Working ... ");
+			} else {
+				this.follow(command);
+			}
 		} else if (currentCommand.equalsIgnoreCase("checkportfolio")) {
 			this.checkportfolio();
 		} else {
