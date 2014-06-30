@@ -136,15 +136,5 @@ public class DataReader {
 		} else {
 			return new String[3];
 		}
-	}
-	
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
-	}
-
+	}	
 }

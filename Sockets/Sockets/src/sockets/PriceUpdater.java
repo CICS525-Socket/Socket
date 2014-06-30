@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-/**
- * 
- * @author Ali
- */
 public class PriceUpdater implements Runnable {
 	private ArrayList<Stock> myStocks;
 	private static Scanner scanner;
@@ -85,12 +81,6 @@ public class PriceUpdater implements Runnable {
 			result = result + "\n";
 		}
 		return result;
-	}
-
-	public static void main(String[] args) {
-		String symbol = "aapl";
-		// String html = readHTML(symbol);
-		System.out.println(name(symbol) + " " + price(symbol));
 	}
 
 	public void run() {

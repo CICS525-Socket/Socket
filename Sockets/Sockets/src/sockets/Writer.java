@@ -1,6 +1,3 @@
-/**
- * 
- */
 package sockets;
 
 import java.io.BufferedWriter;
@@ -89,7 +86,7 @@ public class Writer {
 
 	/*
 	 * this method takes the name of the stock that the user has requested for
-	 * and add its to the file if it is valid
+	 * and adds it to the file if it is valid
 	 */
 	public static synchronized ArrayList<Stock> addStock(String tickername,
 			ArrayList<Stock> stocks) {
@@ -312,15 +309,4 @@ public class Writer {
 		// return the collection that was just purchased
 		return results;
 	}
-
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		ArrayList<Stock> s = new ArrayList<Stock>();
-		Writer.writeStockValues(s);
-
-	}
-
 }
