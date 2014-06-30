@@ -125,7 +125,7 @@ public class ConnectionManager implements Runnable {
 	private void follow(String ticker) {
 		currentCommand = "follow";
 		// this.sendToUser("Calling the follow function");
-		String[] comps = ticker.split(" ");
+		String[] comps = ticker.split("\\s+");
 		String tickername = comps[1].substring(1,comps[1].length()-1);
 		
 		System.out.println("The tickername is " + tickername);
@@ -172,12 +172,12 @@ public class ConnectionManager implements Runnable {
 
 	private void buy(String command) {
 		currentCommand = "buy";
-		String[] commandComps = command.split(" ");
+		String[] commandComps = command.split("\\s+");
 		if (commandComps.length != 3) {
 			sendToUser("Invalid command");
 			return;
 		}
-		if (commandComps[0].equals("BUY") && commandComps[1].startsWith("<")
+		if (commandComps[0].equalsIgnoreCase("BUY") && commandComps[1].startsWith("<")
 				&& commandComps[1].endsWith(">")
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {
@@ -210,12 +210,12 @@ public class ConnectionManager implements Runnable {
 
 	private void sell(String command) {
 		currentCommand = "sell";
-		String[] commandComps = command.split(" ");
+		String[] commandComps = command.split("\\s+");
 		if (commandComps.length != 3) {
 			sendToUser("Invalid command");
 			return;
 		}
-		if (commandComps[0].equals("SELL") && commandComps[1].startsWith("<")
+		if (commandComps[0].equalsIgnoreCase("SELL") && commandComps[1].startsWith("<")
 				&& commandComps[1].endsWith(">")
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {

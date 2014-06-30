@@ -130,7 +130,7 @@ public class DataReader {
 	}
 
 	private static String[] splitLine(String line, int length) {
-		String[] comp = line.split(" ");
+		String[] comp = line.split("\\s+");
 		if (comp.length == length) {
 			return comp;
 		} else {

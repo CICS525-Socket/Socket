@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package sockets;
 
 import java.io.BufferedInputStream;
@@ -119,10 +113,8 @@ public class PriceUpdater implements Runnable {
 
 				// let the updater sleep for 2 minutes
 				try {
-					Thread.sleep(120000);
-					// Thread.sleep(10);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
+					Thread.sleep(120000);					
+				} catch (InterruptedException e1) {					
 					e1.printStackTrace();
 				}
 			}
