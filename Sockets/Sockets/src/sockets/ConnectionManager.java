@@ -62,26 +62,30 @@ public class ConnectionManager implements Runnable {
 			System.out.println("user command: " + userCommand);
 			String[] command = commandParser(userCommand.toLowerCase().trim());
 			if (!command[0].equals("close")) {
-				switch (userCommand) {
-				case "close":
-					this.closeConnection();
-					break;				
-				case "checkportfolio":
-					currentCommand = "checkportfolio";
-					this.checkportfolio();
-					break;
-				case "buy":
-					currentCommand = "buy";
-					break;
-				case "sell":
-					currentCommand = "sell";
-					break;
-				case "follow":
-					currentCommand = "follow";
-					break;
-				default:
+				if (currentCommand.equals("")) {
+					switch (userCommand) {
+					case "close":
+						this.closeConnection();
+						break;
+					case "checkportfolio":
+						currentCommand = "checkportfolio";
+						this.checkportfolio();
+						break;
+					case "buy":
+						currentCommand = "buy";
+						break;
+					case "sell":
+						currentCommand = "sell";
+						break;
+					case "follow":
+						currentCommand = "follow";
+						break;
+					default:
+						this.unknowCommand(userCommand);
+						break;
+					}
+				} else {
 					this.unknowCommand(userCommand);
-					break;
 				}
 			} else {
 				this.closeConnection();
@@ -98,7 +102,7 @@ public class ConnectionManager implements Runnable {
 			} else {
 				continue;
 			}
-		}		
+		}
 	}
 
 	private void sendToUser(String userCommand) {
@@ -121,14 +125,14 @@ public class ConnectionManager implements Runnable {
 
 	private static String[] commandParser(String command) {
 		return command.split("\\s+");
-	}	
+	}
 
 	private void follow(String ticker) {
 		currentCommand = "follow";
 		// this.sendToUser("Calling the follow function");
 		String[] comps = ticker.split("\\s+");
-		String tickername = comps[1].substring(1,comps[1].length()-1);
-		
+		String tickername = comps[1].substring(1, comps[1].length() - 1);
+
 		System.out.println("The tickername is " + tickername);
 		this.stocks = Writer.addStock(tickername, stocks);
 		Stock rStock = DataReader.getStockByTickername(tickername, stocks);
@@ -178,7 +182,8 @@ public class ConnectionManager implements Runnable {
 			sendToUser("Invalid command");
 			return;
 		}
-		if (commandComps[0].equalsIgnoreCase("BUY") && commandComps[1].startsWith("<")
+		if (commandComps[0].equalsIgnoreCase("BUY")
+				&& commandComps[1].startsWith("<")
 				&& commandComps[1].endsWith(">")
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {
@@ -195,11 +200,11 @@ public class ConnectionManager implements Runnable {
 
 			Collection results = Writer.purchaseStock(tickername, user, no,
 					users, stocks);
-			if (results != null) {				
+			if (results != null) {
 				userStocks = DataReader.getUserStocks();
 				stocks = DataReader.getStocks();
 				users = DataReader.getUsers(); // (ArrayList<User>) list.get(2);
-				user = DataReader.getUserByUsername(user.getUsername(), users);				
+				user = DataReader.getUserByUsername(user.getUsername(), users);
 				this.sendToUser("Purchase successful.");
 			} else {
 				this.sendToUser("Purchase unsuccessful.");
@@ -216,7 +221,8 @@ public class ConnectionManager implements Runnable {
 			sendToUser("Invalid command");
 			return;
 		}
-		if (commandComps[0].equalsIgnoreCase("SELL") && commandComps[1].startsWith("<")
+		if (commandComps[0].equalsIgnoreCase("SELL")
+				&& commandComps[1].startsWith("<")
 				&& commandComps[1].endsWith(">")
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {
@@ -233,11 +239,11 @@ public class ConnectionManager implements Runnable {
 
 			Collection results = Writer.sellStock(tickername, user, no, users,
 					stocks);
-			if (results != null) {				
+			if (results != null) {
 				userStocks = DataReader.getUserStocks();
 				stocks = DataReader.getStocks();
-				users = DataReader.getUsers(); 
-				user = DataReader.getUserByUsername(user.getUsername(), users);				
+				users = DataReader.getUsers();
+				user = DataReader.getUserByUsername(user.getUsername(), users);
 				this.sendToUser("Sale successful.");
 			} else {
 				this.sendToUser("Sale unsuccessful. Please cross-check your portfolio");
