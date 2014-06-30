@@ -80,25 +80,17 @@ public class ConnectionManager implements Runnable {
 					break;
 				case "buy":
 					currentCommand = "buy";
-					// this.buy();
 					break;
 				case "sell":
 					currentCommand = "sell";
-					// this.sell();
 					break;
 				case "follow":
 					currentCommand = "follow";
-					// this.sendToUser("Calling the follow function");
-					// this.follow();
 					break;
 				default:
 					this.unknowCommand(userCommand);
 					break;
 				}
-				// userCommand = this.readInputStream();
-				// System.out.println("user command: " + userCommand);
-				// command = commandParser(userCommand.toLowerCase().trim());
-				// this.sendToUser(command[0]);
 			} else {
 				this.closeConnection();
 				break;
@@ -189,10 +181,8 @@ public class ConnectionManager implements Runnable {
 
 	private void buy(String command) {
 		currentCommand = "buy";
-		System.out.println("Getting to the buy command");
-		// this.sendToUser("Calling the follow function");
 		String[] commandComps = command.split(" ");
-		if(commandComps.length != 3) {
+		if (commandComps.length != 3) {
 			sendToUser("Invalid command");
 			return;
 		}
@@ -202,8 +192,14 @@ public class ConnectionManager implements Runnable {
 				&& commandComps[2].endsWith(">")) {
 			String tickername = commandComps[1].substring(1,
 					commandComps[1].length() - 1);
-			int no = Integer.parseInt(commandComps[2].substring(1,
-					commandComps[2].length() - 1));
+			int no = 0;
+			try {
+				no = Integer.valueOf(commandComps[2].substring(1,
+						commandComps[2].length() - 1));
+			} catch (Exception e) {
+				sendToUser("Invalid amount entered. Please enter an integer");
+				return;
+			}
 
 			Collection results = Writer.purchaseStock(tickername, user, no,
 					users, stocks);
@@ -214,7 +210,7 @@ public class ConnectionManager implements Runnable {
 				users = (ArrayList<User>) list.get(2);
 				user = (User) list.get(3);
 				System.out.println(user.getBalance());
-				//checkportfolio();
+				// checkportfolio();
 				this.sendToUser("Purchase successful.");
 			} else {
 				this.sendToUser("Purchase unsuccessful.");
@@ -225,12 +221,48 @@ public class ConnectionManager implements Runnable {
 
 	}
 
-	private void sell() {
+	private void sell(String command) {
+		currentCommand = "sell";
+		String[] commandComps = command.split(" ");
+		if (commandComps.length != 3) {
+			sendToUser("Invalid command");
+			return;
+		}
+		if (commandComps[0].equals("SELL") && commandComps[1].startsWith("<")
+				&& commandComps[1].endsWith(">")
+				&& commandComps[2].startsWith("<")
+				&& commandComps[2].endsWith(">")) {
+			String tickername = commandComps[1].substring(1,
+					commandComps[1].length() - 1);
+			int no = 0;
+			try {
+				no = Integer.valueOf(commandComps[2].substring(1,
+						commandComps[2].length() - 1));
+			} catch (Exception e) {
+				sendToUser("Invalid amount entered. Please enter an integer");
+				return;
+			}
 
+			Collection results = Writer.sellStock(tickername, user, no, users,
+					stocks);
+			if (results != null) {
+				List list = new ArrayList(results);
+				userStocks = (ArrayList<UserStocks>) list.get(0);
+				stocks = (ArrayList<Stock>) list.get(1);
+				users = (ArrayList<User>) list.get(2);
+				user = (User) list.get(3);
+				System.out.println(user.getBalance());
+				// checkportfolio();
+				this.sendToUser("Sale successful.");
+			} else {
+				this.sendToUser("Sale unsuccessful. Please cross-check your portfolio");
+			}
+		} else {
+			this.sendToUser("Invalid sell command. Please use SELL <TICKERNAME> <NO>");
+		}
 	}
 
 	private void unknowCommand(String command) {
-
 		System.out.println("Current command is " + currentCommand);
 		if (currentCommand.equalsIgnoreCase("follow")) {
 			if (command.equals("reset")) {
@@ -247,6 +279,13 @@ public class ConnectionManager implements Runnable {
 				sendToUser("Server Working ... ");
 			} else {
 				this.buy(command);
+			}
+		} else if (currentCommand.equalsIgnoreCase("SELL")) {
+			if (command.equals("reset")) {
+				currentCommand = "";
+				sendToUser("Server Working ... ");
+			} else {
+				this.sell(command);
 			}
 		} else {
 			sendToUser("Invalid command");

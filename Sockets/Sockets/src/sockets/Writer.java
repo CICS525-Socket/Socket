@@ -171,6 +171,11 @@ public class Writer {
 		// check if that no of stocks are available
 		Stock purchasedStock = DataReader.getStockByTickername(tickername,
 				stocks);
+		
+		if(purchasedStock == null) {
+			return null;
+		}
+		
 		if (purchasedStock.getNo() < no) {
 			System.out
 					.println("The amount of stocks remaining is less that what you want. The amount remaining is "
