@@ -11,7 +11,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -51,21 +50,17 @@ public class ConnectionManager implements Runnable {
 		if (!users.contains(user)) {
 			users.add(user);
 		}
-		System.out.println("The size of the users list is " + users.size()
-				+ " " + users.get(0).getUsername());
 		user = DataReader.getUserByUsername(username, users);
 		stocks = DataReader.getStocks();
 		// changed ended here
 	}
 
 	public void run() {
-
 		System.out.println("run method running.");
 		while (true) {
 			String userCommand = this.readInputStream();
 			System.out.println("user command: " + userCommand);
 			String[] command = commandParser(userCommand.toLowerCase().trim());
-			// this.sendToUser(command[0]);
 			if (!command[0].equals("close")) {
 				switch (userCommand) {
 				case "close":
@@ -106,8 +101,7 @@ public class ConnectionManager implements Runnable {
 			} else {
 				continue;
 			}
-		}
-		// return null;
+		}		
 	}
 
 	private void sendToUser(String userCommand) {
@@ -145,8 +139,9 @@ public class ConnectionManager implements Runnable {
 		if (rStock != null) {
 			this.sendToUser("Stockname: "
 					+ PriceUpdater.name(rStock.getTickername())
-					+ " \t Tickername: " + rStock.getTickername() + "\t Price: "
-					+ rStock.getPrice() + "\t Remaining: " + rStock.getNo());
+					+ " \t Tickername: " + rStock.getTickername()
+					+ "\t Price: " + rStock.getPrice() + "\t Remaining: "
+					+ rStock.getNo());
 		} else {
 			this.sendToUser("Tickername is invalid");
 		}
@@ -204,14 +199,11 @@ public class ConnectionManager implements Runnable {
 
 			Collection results = Writer.purchaseStock(tickername, user, no,
 					users, stocks);
-			if (results != null) {
-				//List list = new ArrayList(results);
+			if (results != null) {				
 				userStocks = DataReader.getUserStocks();
 				stocks = DataReader.getStocks();
-				users = DataReader.getUsers(); //(ArrayList<User>) list.get(2);
-				user = DataReader.getUserByUsername(user.getUsername(), users);
-				//System.out.println(user.getBalance());
-				// checkportfolio();
+				users = DataReader.getUsers(); // (ArrayList<User>) list.get(2);
+				user = DataReader.getUserByUsername(user.getUsername(), users);				
 				this.sendToUser("Purchase successful.");
 			} else {
 				this.sendToUser("Purchase unsuccessful.");
@@ -219,7 +211,6 @@ public class ConnectionManager implements Runnable {
 		} else {
 			this.sendToUser("Invalid command");
 		}
-
 	}
 
 	private void sell(String command) {
@@ -246,14 +237,11 @@ public class ConnectionManager implements Runnable {
 
 			Collection results = Writer.sellStock(tickername, user, no, users,
 					stocks);
-			if (results != null) {
-				//List list = new ArrayList(results);
+			if (results != null) {				
 				userStocks = DataReader.getUserStocks();
 				stocks = DataReader.getStocks();
-				users = DataReader.getUsers(); //(ArrayList<User>) list.get(2);
-				user = DataReader.getUserByUsername(user.getUsername(), users);
-				//System.out.println(user.getBalance());
-				// checkportfolio();
+				users = DataReader.getUsers(); 
+				user = DataReader.getUserByUsername(user.getUsername(), users);				
 				this.sendToUser("Sale successful.");
 			} else {
 				this.sendToUser("Sale unsuccessful. Please cross-check your portfolio");
