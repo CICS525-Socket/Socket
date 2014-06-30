@@ -12,7 +12,10 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Scanner;
 
 /**
@@ -97,12 +100,14 @@ public class PriceUpdater implements Runnable {
 	}
 
 	public void run() {
-		System.out.println("Getting to the run command");
 		while (true) {
 			// get the prices every 2 minutes and update them
 			myStocks = DataReader.getStocks();
-			System.out.println("My stocks size is " + myStocks.size());
-			if (myStocks != null) {				
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			System.out.println("Last updated stocks at "
+					+ dateFormat.format(date));
+			if (myStocks != null) {
 				for (Stock e : myStocks) {
 					int index = myStocks.indexOf(e);
 					e.setPrice(price(e.getTickername()));
@@ -115,7 +120,7 @@ public class PriceUpdater implements Runnable {
 				// let the updater sleep for 2 minutes
 				try {
 					Thread.sleep(120000);
-					//Thread.sleep(10);
+					// Thread.sleep(10);
 				} catch (InterruptedException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
