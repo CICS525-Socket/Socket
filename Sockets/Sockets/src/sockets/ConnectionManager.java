@@ -109,6 +109,7 @@ public class ConnectionManager implements Runnable {
 
 	private void closeConnection() {
 		try {
+			this.sendToUser("Closing user connection ...");
 			inStream.close();
 			outStream.close();
 			out.close();
