@@ -22,17 +22,13 @@ public class ConnectionManager implements Runnable {
 	private String currentCommand = "";
 	private User user; // user using this client
 
-	// changed ended here
-
 	public ConnectionManager(Socket socket) throws IOException {
 		this.socket = socket;
 		inStream = new Scanner(socket.getInputStream());
 		outStream = socket.getOutputStream();
 		out = new PrintWriter(outStream);
-
-		// changed here //
-
-		String username = this.readInputStream();
+		
+		String username = getUsername(this.readInputStream());
 		System.out.println("Handling user " + username);
 		userStocks = DataReader.getUserStocks();
 		users = DataReader.getUsers();
@@ -42,8 +38,7 @@ public class ConnectionManager implements Runnable {
 			users.add(user);
 		}
 		user = DataReader.getUserByUsername(username, users);
-		stocks = DataReader.getStocks();
-		// changed ended here
+		stocks = DataReader.getStocks();		
 	}
 
 	public void run() {
@@ -273,5 +268,10 @@ public class ConnectionManager implements Runnable {
 			sendToUser("Invalid command");
 		}
 
+	}
+	
+	private String getUsername(String username) {
+		String[] comps = username.split("\\s+");
+		return comps[1].substring(1, comps[1].length() - 1);
 	}
 }

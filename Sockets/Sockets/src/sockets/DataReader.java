@@ -23,7 +23,7 @@ public class DataReader {
 					User u = new User();
 					String[] comp = splitLine(s, 2);
 					u.setUsername(comp[0]);
-					System.out.println(comp[0]);
+					//System.out.println(comp[0]);
 					u.setBalance(Double.valueOf(comp[1]));
 					u.setUserStock(getUserStocks());
 					users.add(u);

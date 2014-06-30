@@ -7,23 +7,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * @author welcome
- * 
- */
 public class Writer {
 
 	/* write all the stock values to the file that stores them */
-	public synchronized static void writeStockValues(ArrayList<Stock> stocks) {
-
-		// sampling purposes. remove later
-		/*
-		 * stocks = new ArrayList<Stock>(); stocks.add(new Stock("goog", 1000,
-		 * PriceUpdater.price("goog"))); stocks.add(new Stock("yhoo", 1000,
-		 * PriceUpdater.price("yhoo"))); stocks.add(new Stock("msft", 1000,
-		 * PriceUpdater.price("msft")));
-		 */
-		// end of sampling
+	public synchronized static void writeStockValues(ArrayList<Stock> stocks) {	
 
 		File f = new File("stocks.txt");
 		FileWriter fr = null;
