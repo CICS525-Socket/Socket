@@ -53,6 +53,12 @@ public class Writer {
 
 	/* write all the users to the file that stores the users */
 	public synchronized static void writeAllUsers(ArrayList<User> users) {
+		
+		ArrayList<User> existing = DataReader.getUsers();
+		if(!existing.equals(users)) {
+			
+		}
+		
 		File f = new File("users.txt");
 		FileWriter fr = null;
 		try {
@@ -77,6 +83,7 @@ public class Writer {
 	 */
 	public static synchronized ArrayList<Stock> addStock(String tickername,
 			ArrayList<Stock> stocks) {
+		stocks = DataReader.getStocks();
 		double price = 0;
 		tickername = tickername.toUpperCase();
 		try {
@@ -111,7 +118,7 @@ public class Writer {
 	 */
 	public static synchronized User addUser(String username,
 			ArrayList<User> users) {
-
+		users = DataReader.getUsers();
 		// check if the user exists
 		for (User u : users) {
 			if (u.getUsername().equalsIgnoreCase(username)) {
@@ -220,14 +227,14 @@ public class Writer {
 		writeAllUserStocks(userStocks); // write the stock values to the file
 
 		// update and write the no of stocks of the stock
-		int indexOfPurchasedStock = stocks.indexOf(purchasedStock);
+		int indexOfPurchasedStock = DataReader.getIndexOfPS(purchasedStock, stocks);
 		purchasedStock.setNo(purchasedStock.getNo() - no);
 		stocks.set(indexOfPurchasedStock, purchasedStock);
 		results.add(stocks); // index 1
 		writeStockValues(stocks);
 
 		// update the user balance
-		int userIndex = users.indexOf(username);
+		int userIndex = DataReader.getIndexOfUser(username, users);
 		username.setBalance(username.getBalance() - costPrice);
 		username.setUserStock(userStocks);
 		users.set(userIndex, username);
@@ -293,7 +300,7 @@ public class Writer {
 		writeStockValues(stocks);
 
 		// update the user balance
-		int userIndex = users.indexOf(username);
+		int userIndex = DataReader.getIndexOfUser(username, users);
 		username.setBalance(username.getBalance() + costPrice);
 		username.setUserStock(userStocks);
 		users.set(userIndex, username);

@@ -136,5 +136,27 @@ public class DataReader {
 		} else {
 			return new String[3];
 		}
-	}	
+	}
+	
+	public static int getIndexOfUser(User u, ArrayList<User> users) {
+		int counter = 0;
+		for(User e:users) {
+			if(e.getUsername().equalsIgnoreCase(u.getUsername())) {
+				return counter;
+			}
+			counter++;
+		}
+		return -1;
+	}
+	
+	public static int getIndexOfPS(Stock u, ArrayList<Stock> stocks) {
+		int counter = 0;
+		for(Stock e:stocks) {
+			if(e.getTickername().equalsIgnoreCase(u.getTickername())) {
+				return counter;
+			}
+			counter++;
+		}
+		return -1;
+	}
 }

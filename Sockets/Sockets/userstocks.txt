@@ -1,2 +1,5 @@
-Ali AAPL 10
+Ali AAPL 0
 Yanki HOG 5
+Yanki AAPL 3
+Ali BBRY 0
+Lolo BBRY 1
