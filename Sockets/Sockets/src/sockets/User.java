@@ -59,6 +59,7 @@ public class User {
 	}
 	
 	public int getNoOfStocksByUserAndTickerName(String username, String tickername) {
+		tickername = tickername.toUpperCase();
 		for(UserStocks us:thisUserStock) {
 			if(us.getTickername().equals(tickername) && us.getUsername().equals(username)) {
 				return us.getNo();

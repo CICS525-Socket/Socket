@@ -118,7 +118,7 @@ public class ConnectionManager implements Runnable {
 		currentCommand = "follow";
 		// this.sendToUser("Calling the follow function");
 		String[] comps = ticker.split("\\s+");
-		String tickername = comps[1].substring(1, comps[1].length() - 1);
+		String tickername = comps[1].substring(1, comps[1].length() - 1).toUpperCase();
 
 		System.out.println("The tickername is " + tickername);
 		this.stocks = Writer.addStock(tickername, stocks);
@@ -176,7 +176,7 @@ public class ConnectionManager implements Runnable {
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {
 			String tickername = commandComps[1].substring(1,
-					commandComps[1].length() - 1);
+					commandComps[1].length() - 1).toUpperCase();
 			int no = 0;
 			try {
 				no = Integer.valueOf(commandComps[2].substring(1,
@@ -215,7 +215,7 @@ public class ConnectionManager implements Runnable {
 				&& commandComps[2].startsWith("<")
 				&& commandComps[2].endsWith(">")) {
 			String tickername = commandComps[1].substring(1,
-					commandComps[1].length() - 1);
+					commandComps[1].length() - 1).toUpperCase();
 			int no = 0;
 			try {
 				no = Integer.valueOf(commandComps[2].substring(1,

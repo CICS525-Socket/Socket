@@ -78,6 +78,7 @@ public class Writer {
 	public static synchronized ArrayList<Stock> addStock(String tickername,
 			ArrayList<Stock> stocks) {
 		double price = 0;
+		tickername = tickername.toUpperCase();
 		try {
 			price = PriceUpdater.price(tickername);
 		} catch (Exception e) {
@@ -95,6 +96,7 @@ public class Writer {
 
 	/* this method checks if the stock exists in the stock list */
 	public static boolean stockExists(String tickername, ArrayList<Stock> stocks) {
+		tickername = tickername.toUpperCase();
 		for (Stock e : stocks) {
 			if (e.getTickername().equalsIgnoreCase(tickername)) {
 				return true;
@@ -149,6 +151,7 @@ public class Writer {
 	public static synchronized Collection purchaseStock(String tickername,
 			User username, int no, ArrayList<User> users,
 			ArrayList<Stock> stocks) {
+		tickername = tickername.toUpperCase();
 		// the collection that is returned
 		Collection results = new ArrayList();
 
@@ -237,6 +240,7 @@ public class Writer {
 	public synchronized static Collection sellStock(String tickername,
 			User username, int no, ArrayList<User> users,
 			ArrayList<Stock> stocks) {
+		tickername = tickername.toUpperCase();
 		// initialize a collection to hold the updated values
 		Collection results = new ArrayList();
 		// calculate what it would cost from the no and the price
