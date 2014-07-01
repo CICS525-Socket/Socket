@@ -158,6 +158,7 @@ public class ConnectionManager implements Runnable {
 			System.out.println("You do not have any stocks yet");
 			response += "\nYou do not have any stocks yet";
 		}
+		currentCommand = "";
 		sendToUser(response);
 	}
 

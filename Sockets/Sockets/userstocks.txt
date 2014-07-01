@@ -1,2 +1,1 @@
-yANKI GOOG 1
-Yan aapl 2
+Ali AAPL 10
