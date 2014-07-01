@@ -151,6 +151,8 @@ public class Writer {
 	public static synchronized Collection purchaseStock(String tickername,
 			User username, int no, ArrayList<User> users,
 			ArrayList<Stock> stocks) {
+		stocks = DataReader.getStocks();
+		users = DataReader.getUsers();
 		tickername = tickername.toUpperCase();
 		// the collection that is returned
 		Collection results = new ArrayList();
@@ -240,6 +242,8 @@ public class Writer {
 	public synchronized static Collection sellStock(String tickername,
 			User username, int no, ArrayList<User> users,
 			ArrayList<Stock> stocks) {
+		stocks = DataReader.getStocks();
+		users = DataReader.getUsers();
 		tickername = tickername.toUpperCase();
 		// initialize a collection to hold the updated values
 		Collection results = new ArrayList();
