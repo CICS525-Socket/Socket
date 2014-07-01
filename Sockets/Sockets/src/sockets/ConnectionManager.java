@@ -118,8 +118,8 @@ public class ConnectionManager implements Runnable {
 		currentCommand = "follow";
 		// this.sendToUser("Calling the follow function");
 		String[] comps = ticker.split("\\s+");
-		String tickername = comps[1].substring(1, comps[1].length() - 1).toUpperCase();
-
+		String tickername = comps[1].substring(1, comps[1].length() - 1);
+		tickername = tickername.toUpperCase();
 		System.out.println("The tickername is " + tickername);
 		this.stocks = Writer.addStock(tickername, stocks);
 		Stock rStock = DataReader.getStockByTickername(tickername, stocks);
