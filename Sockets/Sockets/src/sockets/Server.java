@@ -20,12 +20,28 @@ public class Server {
 		if(!userstocks.exists()) {
 		    try {
 				userstocks.createNewFile();
-			//	FileOutputStream oFile = new FileOutputStream(userstocks, false); 
 			} catch (IOException e) {
 				System.out.println("Could not create userstocks storage file");
 			}
-		} 		
+		} 	
+		
+		File users = new File("users.txt");
+		if(!users.exists()) {
+		    try {
+				users.createNewFile();
+			} catch (IOException e) {
+				System.out.println("Could not create users storage file");
+			}
+		} 	
 
+		File stocks = new File("stocks.txt");
+		if(!stocks.exists()) {
+		    try {
+				stocks.createNewFile(); 
+			} catch (IOException e) {
+				System.out.println("Could not create userstocks storage file");
+			}
+		} 	
 		// start the price updater
 		Thread t2 = new Thread(new PriceUpdater());
 		t2.start();
