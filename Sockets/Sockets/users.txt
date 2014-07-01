@@ -3,3 +3,4 @@ Ifeanyi 1000.0
 Uru 1000.0
 Jas 1000.0
 Lota 1000.0
+Yan 814.14
