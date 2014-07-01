@@ -100,6 +100,7 @@ public class ConnectionManager implements Runnable {
 	private void closeConnection() {
 		try {
 			this.sendToUser("Closing user connection ...");
+			currentCommand = "";
 			inStream.close();
 			outStream.close();
 			out.close();
@@ -266,6 +267,7 @@ public class ConnectionManager implements Runnable {
 				this.sell(command);
 			}
 		} else {
+			currentCommand = "";
 			sendToUser("Invalid command");
 		}
 
